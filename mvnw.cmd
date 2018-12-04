@@ -57,6 +57,8 @@ set ERROR_CODE=0
 @REM To isolate internal variables from possible post scripts, we use another setlocal
 @setlocal
 
+::Here's a small change for the fork test
+
 @REM ==== START VALIDATION ====
 if not "%JAVA_HOME%" == "" goto OkJHome
 
