@@ -8,15 +8,19 @@ import com.example.remy.entities.Param;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.remy.models.Constants.URL_OBJECTS;
+import static com.example.remy.models.Constants.URL_PARAMS;
+
 public class User {
     private Long userId;
     private String userName;
     private boolean isAdmin;
 
+
     private static ObjectDao objectDao = new ObjectDao();
     private static ParamDao paramDao = new ParamDao();
-    private static List<Object> objects = objectDao.getAll();
-    private static List<Param> params = paramDao.getAll();
+    private static List<Object> objects;
+    private static List<Param> params;
 
     public User(Long id, String name, boolean admin)
     {
@@ -27,6 +31,8 @@ public class User {
 
     public static List<User> getAllUsers()
     {
+        objects = objectDao.getAll(URL_OBJECTS);
+        params = paramDao.getAll(URL_PARAMS);
         List<User> users = new ArrayList<>();
         for (Object obj : objects)
         {

@@ -9,17 +9,18 @@ import com.example.remy.models.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.remy.models.Constants.URL_OBJECTS;
+import static com.example.remy.models.Constants.URL_PARAMS;
+
 public class UsersRecipes {
     private Long urId;
     private Long userId;
     private Long recipeId;
-    public User user;
-    public Recipe recipe;
 
     private static ObjectDao objectDao = new ObjectDao();
     private static ParamDao paramDao = new ParamDao();
-    private static List<Object> objects = objectDao.getAll();
-    private static List<Param> params = paramDao.getAll();
+    private static List<Object> objects;
+    private static List<Param> params;
 
     public UsersRecipes(Long urId, Long userId, Long recipeId)
     {
@@ -30,6 +31,8 @@ public class UsersRecipes {
 
     public static List<UsersRecipes> getAllUsersRecipes()
     {
+        objects = objectDao.getAll(URL_OBJECTS);
+        params = paramDao.getAll(URL_PARAMS);
         List<UsersRecipes> urs = new ArrayList<>();
         for(Object obj : objects)
         {
@@ -38,10 +41,10 @@ public class UsersRecipes {
                 UsersRecipes ur = new UsersRecipes(obj.getObject_id(), null, null);
                 for(Param param : params)
                 {
-                    if(param.getAttr_id()==8 && param.getObject_id()==ur.getUrId())
+                    if(param.getAttr_id()==8 && param.getObject_id().equals(ur.getUrId()))
                         ur.setUserId(param.getNumber_value());
 
-                    if(param.getAttr_id()==9 && param.getObject_id()== ur.getUrId())
+                    if(param.getAttr_id()==9 && param.getObject_id().equals(ur.getUrId()))
                         ur.setRecipeId(param.getNumber_value());
                 }
                 urs.add(ur);
@@ -77,7 +80,7 @@ public class UsersRecipes {
     public User getUser() {
         for(User user : User.getAllUsers())
         {
-            if(user.getUserId() == this.getUserId())
+            if(user.getUserId().equals(this.getUserId()))
                 return user;
         }
         return null;
@@ -87,7 +90,7 @@ public class UsersRecipes {
     {
         for(Recipe recipe : Recipe.getAllPecipes())
         {
-            if(recipe.getRecipeId() == this.getRecipeId())
+            if(recipe.getRecipeId().equals(this.getRecipeId()))
                 return recipe;
         }
         return null;

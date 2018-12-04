@@ -9,6 +9,9 @@ import org.jetbrains.annotations.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.remy.models.Constants.URL_OBJECTS;
+import static com.example.remy.models.Constants.URL_PARAMS;
+
 public class Recipe {
     private Long recipeId;
     private String recipeName;
@@ -17,8 +20,8 @@ public class Recipe {
 
     private static ObjectDao objectDao = new ObjectDao();
     private static ParamDao paramDao = new ParamDao();
-    private static List<Object> objects = objectDao.getAll();
-    private static List<Param> params = paramDao.getAll();
+    private static List<Object> objects;
+    private static List<Param> params;
 
     public Recipe(Long id, String name, String steps, String web)
     {
@@ -31,6 +34,8 @@ public class Recipe {
 
     public static List<Recipe> getAllPecipes()
     {
+        objects = objectDao.getAll(URL_OBJECTS);
+        params = paramDao.getAll(URL_PARAMS);
         List<Recipe> recipes = new ArrayList<>();
         for(Object obj : objects)
         {
@@ -49,6 +54,18 @@ public class Recipe {
             }
         }
         return recipes;
+    }
+
+    public List<Ingredient> getIngredients()
+    {
+        List<Ingredient> ingredients = new ArrayList<>();
+        List<IngredientsRecipes> irs = IngredientsRecipes.getAllIngredientsRecipes();
+        for(IngredientsRecipes ir : irs)
+        {
+            if(ir.getRecipeId().equals(this.recipeId))
+                ingredients.add(ir.getIngr());
+        }
+        return ingredients;
     }
 
     public Long getRecipeId() {

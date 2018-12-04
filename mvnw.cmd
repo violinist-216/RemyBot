@@ -16,7 +16,7 @@
 @REM specific language governing permissions and limitations
 @REM under the License.
 @REM ----------------------------------------------------------------------------
-::Here's a small change for the fork test
+
 @REM ----------------------------------------------------------------------------
 @REM Maven2 Start Up Batch script
 @REM
